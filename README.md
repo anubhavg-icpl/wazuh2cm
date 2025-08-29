@@ -1,120 +1,210 @@
-# SIEM and TheHive Integration
+# SIEM-TheHive Integration Platform
 
 **Copyright © 2015-2020 Infopercept Consulting**  
-**Property of Infopercept Consulting**
-
-[Reference article by Awwal Ishiaku](https://siem.com/blog/using-siem-and-thehive-for-threat-protection-and-incident-response/)
-
-_en_
-## SIEM and TheHive integration
-This project integrates SIEM and TheHive. Use the following instructions to configure:
- 
-```sh
-$ cd /opt/
-$ sudo git clone https://github.com/infopercept/siem2thehive.git
-$ sudo /var/ossec/framework/python/bin/pip3 install -r /opt/siem2thehive/requirements.txt
-$ sudo cp /opt/siem2thehive/custom-w2thive.py /var/ossec/integrations/custom-w2thive.py
-$ sudo cp /opt/siem2thehive/custom-w2thive /var/ossec/integrations/custom-w2thive
-$ sudo chmod 755 /var/ossec/integrations/custom-w2thive.py
-$ sudo chmod 755 /var/ossec/integrations/custom-w2thive
-$ sudo chown root:ossec /var/ossec/integrations/custom-w2thive.py
-$ sudo chown root:ossec /var/ossec/integrations/custom-w2thive
-$ sudo nano /var/ossec/etc/ossec.conf
-```
-insert the following snippet into the ossec_config block:
-```xml
-<integration>
-    <name>custom-w2thive</name>
-    <hook_url>http://localhost:9000</hook_url>
-    <api_key>123456790</api_key>
-    <alert_format>json</alert_format>
-</integration>
-```
-lines description:
-
-**name** - integration name(no need to change)
-
-**hook_url** - TheHive host
-
-**api\_key** - TheHive user's API key. You can generate the key on the user management page by logging in as administrator. For security, allow the api-user to create only an alert.
-
-**alert\_format** - format that siem sends alert to the integrator(no need to change)
-
-after configuration, apply the changes with this command:
-```sh
-/var/ossec/bin/ossec-control restart
-```
-Finally, check the /var/ossec/log/integrations.log file for errors. If there is not enough information from the errors, you can enable debug_mode by changing the line in the file custom-w2thive.py 
-```python
-debug_enabled = False
-```
-to 
-```python
-debug_enabled = True
-```
-If you receive too many events, you can set a severity threshold for events that will be send to TheHive. Set the value of the lvl_threshold variable in the file /var/ossec/integrations/custom-w2thive.py
-```python
-lvl_threshold = 0
-```
-Events with a severity level equal to or greater will be sent to TheHive. You can read more about event classification in SIEM here: [siem-rules-classification](https://documentation.siem.com/3.12/user-manual/ruleset/rules-classification.html)
-
----
-**Developed by Infopercept Consulting**  
+**Property of Infopercept Consulting**  
 **Contact: info@infopercept.com**
 
-_ru_
-## SIEM and TheHive integration
-Этот проект интегрирует SIEM и TheHive. Для настройки воспользуйтесь следующими инструкциями:
- 
-```sh
-$ cd /opt/
-$ sudo git clone https://github.com/infopercept/siem2thehive.git
-$ sudo /var/ossec/bin/python/pip3 install -r /opt/siem2thehive/requirements.txt
-$ sudo cp /opt/siem2thehive/custom-w2thive.py /var/ossec/integration/custom-w2thive.py
-$ sudo cp /opt/siem2thehive/custom-w2thive /var/ossec/integration/custom-w2thive
-$ sudo chmod 755 /var/ossec/integration/custom-w2thive.py
-$ sudo chmod 755 /var/ossec/integration/custom-w2thive
-$ sudo chown root:ossec /var/ossec/integration/custom-w2thive.py
-$ sudo chown root:ossec /var/ossec/integration/custom-w2thive
-$ sudo nano /var/ossec/etc/ossec.conf
+---
+
+## Overview
+
+A robust integration platform that seamlessly connects SIEM with TheHive for advanced threat detection and incident response automation.
+
+**Reference:** [Using SIEM and TheHive for Threat Protection](https://siem.com/blog/using-siem-and-thehive-for-threat-protection-and-incident-response/)
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+- OSSEC/SIEM installation
+- TheHive instance running
+- Python 3.x environment
+- Administrative access
+
+### Installation
+
+1. **Clone the repository**
+```bash
+cd /opt/
+sudo git clone https://github.com/infopercept/siem2thehive.git
 ```
-вставьте в блок ossec_config следующий фрагмент:
+
+2. **Install dependencies**
+```bash
+sudo /var/ossec/framework/python/bin/pip3 install -r /opt/siem2thehive/requirements.txt
+```
+
+3. **Deploy integration scripts**
+```bash
+sudo cp /opt/siem2thehive/custom-w2thive.py /var/ossec/integrations/custom-w2thive.py
+sudo cp /opt/siem2thehive/custom-w2thive /var/ossec/integrations/custom-w2thive
+```
+
+4. **Set permissions**
+```bash
+sudo chmod 755 /var/ossec/integrations/custom-w2thive.py
+sudo chmod 755 /var/ossec/integrations/custom-w2thive
+sudo chown root:ossec /var/ossec/integrations/custom-w2thive.py
+sudo chown root:ossec /var/ossec/integrations/custom-w2thive
+```
+
+---
+
+## ⚙️ Configuration
+
+### 1. OSSEC Configuration
+
+Edit `/var/ossec/etc/ossec.conf` and add the following integration block:
+
 ```xml
 <integration>
     <name>custom-w2thive</name>
     <hook_url>http://localhost:9000</hook_url>
-    <api_key>123456790</api_key>
+    <api_key>YOUR_THEHIVE_API_KEY</api_key>
     <alert_format>json</alert_format>
 </integration>
 ```
-где:
 
-**name** - название интегратора(не нужно изменять)
+#### Configuration Parameters:
 
-**hook_url** - адрес TheHive
+| Parameter | Description | Example |
+|-----------|-------------|---------|
+| **name** | Integration identifier (do not modify) | `custom-w2thive` |
+| **hook_url** | TheHive instance URL | `http://localhost:9000` |
+| **api_key** | TheHive API key with alert creation permissions | `YOUR_API_KEY` |
+| **alert_format** | Data format for alerts (do not modify) | `json` |
 
-**api\_key** - API ключ TheHive пользователя. Сгенериоровать ключ можно на странице управления пользователями, авторизовавшись от администратора. Для безопасности разрешите api-пользователю только создание alert.
+### 2. Apply Configuration
 
-**alert\_format** - формат, в котором siem передает в интегратор alert(не нужно изменять)
-
-после настройки примените изменения командой:
-```sh
-/var/ossec/bin/ossec_control restart
+Restart OSSEC to apply changes:
+```bash
+sudo /var/ossec/bin/ossec-control restart
 ```
-В конце проверьте файл /var/ossec/log/integrations.log на присутствие ошибок. Если информации из ошибки недостаточно, вы можете включить debug_mode, поменяв в файле custom-w2thive.py строчку
-```python
-debug_enabled = False
-```
-на 
-```python
-debug_enabled = True
-```
-Если вы получаете слишком много событий, вы можете задать порог критичности отправляемых в TheHive событий. Для того чтобы его установить этот порог, задайте значение переменной lvl_threshold в файле /var/ossec/integrations/custom-w2thive.py
-```python
-lvl_threshold = 0
-```
-В TheHive будут отправлены события с уровнем критичности равным или большим. Подробнее про классификацию событий в SIEM можно прочитать здесь: [siem-rules-classification](https://documentation.siem.com/3.12/user-manual/ruleset/rules-classification.html)
 
 ---
-**Разработано Infopercept Consulting**  
-**Контакт: info@infopercept.com**
+
+## 🔧 Advanced Settings
+
+### Debug Mode
+
+Enable detailed logging by modifying `/var/ossec/integrations/custom-w2thive.py`:
+
+```python
+# Change from:
+debug_enabled = False
+
+# To:
+debug_enabled = True
+```
+
+### Alert Filtering
+
+Control alert volume by setting severity thresholds:
+
+```python
+# In /var/ossec/integrations/custom-w2thive.py
+
+# SIEM rules threshold (default: 0)
+lvl_threshold = 5
+
+# Suricata rules threshold (default: 3)
+suricata_lvl_threshold = 3
+```
+
+Events with severity levels equal to or greater than these thresholds will be forwarded to TheHive.
+
+---
+
+## 📊 Monitoring
+
+### Check Integration Status
+```bash
+# View integration logs
+tail -f /var/ossec/logs/integrations.log
+
+# Check for errors
+grep ERROR /var/ossec/logs/integrations.log
+```
+
+### Verify Alert Creation
+Monitor TheHive dashboard for incoming alerts from SIEM integration.
+
+---
+
+## 🔒 Security Best Practices
+
+1. **API Key Security**
+   - Create a dedicated TheHive user for integration
+   - Grant minimal permissions (alert creation only)
+   - Rotate API keys regularly
+
+2. **Network Security**
+   - Use HTTPS for TheHive connection
+   - Implement firewall rules between SIEM and TheHive
+   - Monitor integration logs for anomalies
+
+3. **Alert Management**
+   - Configure appropriate thresholds to prevent alert fatigue
+   - Regularly review and tune detection rules
+   - Implement alert deduplication where necessary
+
+---
+
+## 📚 Documentation
+
+- [SIEM Rules Classification](https://documentation.siem.com/3.12/user-manual/ruleset/rules-classification.html)
+- [TheHive API Documentation](https://github.com/TheHive-Project/TheHiveDocs/blob/master/api/README.md)
+- [Integration Troubleshooting Guide](https://github.com/infopercept/siem2thehive/wiki)
+
+---
+
+## संस्कृतम् (Sanskrit Documentation)
+
+### परिचयः (Introduction)
+
+एषः प्रकल्पः SIEM तथा TheHive इत्येतयोः मध्ये सेतुः अस्ति। सुरक्षा-घटनानां स्वचालित-प्रबन्धनाय एतत् साधनम् उपयुज्यते।
+
+### स्थापना-विधिः (Installation Method)
+
+१. **कोड-संग्रहस्य प्रतिलिपिः**
+```bash
+cd /opt/
+sudo git clone https://github.com/infopercept/siem2thehive.git
+```
+
+२. **आवश्यक-साधनानां स्थापना**
+```bash
+sudo /var/ossec/framework/python/bin/pip3 install -r /opt/siem2thehive/requirements.txt
+```
+
+३. **संरचना-समायोजनम्**
+   - ossec.conf फाइले एकीकरण-खण्डं योजयन्तु
+   - API कुञ्जी स्थापयन्तु
+   - सेवां पुनः प्रारभन्तु
+
+### महत्त्वपूर्णाः सेटिंग्स् (Important Settings)
+
+- **lvl_threshold**: घटना-स्तरस्य न्यूनतम-सीमा
+- **debug_enabled**: विस्तृत-लॉगिंग-सक्रियकरणम्
+- **suricata_lvl_threshold**: Suricata-नियमानां सीमा
+
+### समस्या-निवारणम् (Troubleshooting)
+
+यदि कश्चित् दोषः दृश्यते, तर्हि:
+- /var/ossec/logs/integrations.log फाइलं परीक्षताम्
+- debug_mode सक्रियं कुर्वन्तु
+- API कुञ्जी प्रमाणीकरणं परीक्षताम्
+
+---
+
+## 🤝 Support
+
+For issues, questions, or contributions:
+- **Email:** info@infopercept.com
+- **GitHub Issues:** [Report a bug](https://github.com/infopercept/siem2thehive/issues)
+- **Wiki:** [Documentation & FAQs](https://github.com/infopercept/siem2thehive/wiki)
+
+---
+
+**© 2015-2020 Infopercept Consulting. All rights reserved.**

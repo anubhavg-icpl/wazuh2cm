@@ -1,4 +1,4 @@
-# SIEM-TheHive Integration Platform
+# SIEM-Case Management Integration Platform
 
 **Copyright © 2015-2020 Infopercept Consulting**  
 **Property of Infopercept Consulting**  
@@ -8,9 +8,9 @@
 
 ## Overview
 
-A robust integration platform that seamlessly connects SIEM with TheHive for advanced threat detection and incident response automation.
+A robust integration platform that seamlessly connects SIEM with Case Management for advanced threat detection and incident response automation.
 
-**Reference:** [Using SIEM and TheHive for Threat Protection](https://siem.com/blog/using-siem-and-thehive-for-threat-protection-and-incident-response/)
+**Reference:** [Using SIEM and Case Management for Threat Protection](https://siem.com/blog/using-siem-and-cm-for-threat-protection-and-incident-response/)
 
 ---
 
@@ -18,7 +18,7 @@ A robust integration platform that seamlessly connects SIEM with TheHive for adv
 
 ### Prerequisites
 - OSSEC/SIEM installation
-- TheHive instance running
+- Case Management instance running
 - Python 3.x environment
 - Administrative access
 
@@ -27,26 +27,26 @@ A robust integration platform that seamlessly connects SIEM with TheHive for adv
 1. **Clone the repository**
 ```bash
 cd /opt/
-sudo git clone https://github.com/infopercept/siem2thehive.git
+sudo git clone https://github.com/infopercept/siem2cm.git
 ```
 
 2. **Install dependencies**
 ```bash
-sudo /var/ossec/framework/python/bin/pip3 install -r /opt/siem2thehive/requirements.txt
+sudo /var/ossec/framework/python/bin/pip3 install -r /opt/siem2cm/requirements.txt
 ```
 
 3. **Deploy integration scripts**
 ```bash
-sudo cp /opt/siem2thehive/custom-w2thive.py /var/ossec/integrations/custom-w2thive.py
-sudo cp /opt/siem2thehive/custom-w2thive /var/ossec/integrations/custom-w2thive
+sudo cp /opt/siem2cm/custom-w2cm.py /var/ossec/integrations/custom-w2cm.py
+sudo cp /opt/siem2cm/custom-w2cm /var/ossec/integrations/custom-w2cm
 ```
 
 4. **Set permissions**
 ```bash
-sudo chmod 755 /var/ossec/integrations/custom-w2thive.py
-sudo chmod 755 /var/ossec/integrations/custom-w2thive
-sudo chown root:ossec /var/ossec/integrations/custom-w2thive.py
-sudo chown root:ossec /var/ossec/integrations/custom-w2thive
+sudo chmod 755 /var/ossec/integrations/custom-w2cm.py
+sudo chmod 755 /var/ossec/integrations/custom-w2cm
+sudo chown root:ossec /var/ossec/integrations/custom-w2cm.py
+sudo chown root:ossec /var/ossec/integrations/custom-w2cm
 ```
 
 ---
@@ -59,9 +59,9 @@ Edit `/var/ossec/etc/ossec.conf` and add the following integration block:
 
 ```xml
 <integration>
-    <name>custom-w2thive</name>
+    <name>custom-w2cm</name>
     <hook_url>http://localhost:9000</hook_url>
-    <api_key>YOUR_THEHIVE_API_KEY</api_key>
+    <api_key>YOUR_CM_API_KEY</api_key>
     <alert_format>json</alert_format>
 </integration>
 ```
@@ -70,9 +70,9 @@ Edit `/var/ossec/etc/ossec.conf` and add the following integration block:
 
 | Parameter | Description | Example |
 |-----------|-------------|---------|
-| **name** | Integration identifier (do not modify) | `custom-w2thive` |
-| **hook_url** | TheHive instance URL | `http://localhost:9000` |
-| **api_key** | TheHive API key with alert creation permissions | `YOUR_API_KEY` |
+| **name** | Integration identifier (do not modify) | `custom-w2cm` |
+| **hook_url** | Case Management instance URL | `http://localhost:9000` |
+| **api_key** | Case Management API key with alert creation permissions | `YOUR_API_KEY` |
 | **alert_format** | Data format for alerts (do not modify) | `json` |
 
 ### 2. Apply Configuration
@@ -88,7 +88,7 @@ sudo /var/ossec/bin/ossec-control restart
 
 ### Debug Mode
 
-Enable detailed logging by modifying `/var/ossec/integrations/custom-w2thive.py`:
+Enable detailed logging by modifying `/var/ossec/integrations/custom-w2cm.py`:
 
 ```python
 # Change from:
@@ -103,7 +103,7 @@ debug_enabled = True
 Control alert volume by setting severity thresholds:
 
 ```python
-# In /var/ossec/integrations/custom-w2thive.py
+# In /var/ossec/integrations/custom-w2cm.py
 
 # SIEM rules threshold (default: 0)
 lvl_threshold = 5
@@ -112,7 +112,7 @@ lvl_threshold = 5
 suricata_lvl_threshold = 3
 ```
 
-Events with severity levels equal to or greater than these thresholds will be forwarded to TheHive.
+Events with severity levels equal to or greater than these thresholds will be forwarded to Case Management.
 
 ---
 
@@ -128,20 +128,20 @@ grep ERROR /var/ossec/logs/integrations.log
 ```
 
 ### Verify Alert Creation
-Monitor TheHive dashboard for incoming alerts from SIEM integration.
+Monitor Case Management dashboard for incoming alerts from SIEM integration.
 
 ---
 
 ## 🔒 Security Best Practices
 
 1. **API Key Security**
-   - Create a dedicated TheHive user for integration
+   - Create a dedicated Case Management user for integration
    - Grant minimal permissions (alert creation only)
    - Rotate API keys regularly
 
 2. **Network Security**
-   - Use HTTPS for TheHive connection
-   - Implement firewall rules between SIEM and TheHive
+   - Use HTTPS for Case Management connection
+   - Implement firewall rules between SIEM and Case Management
    - Monitor integration logs for anomalies
 
 3. **Alert Management**
@@ -154,8 +154,8 @@ Monitor TheHive dashboard for incoming alerts from SIEM integration.
 ## 📚 Documentation
 
 - [SIEM Rules Classification](https://documentation.siem.com/3.12/user-manual/ruleset/rules-classification.html)
-- [TheHive API Documentation](https://github.com/TheHive-Project/TheHiveDocs/blob/master/api/README.md)
-- [Integration Troubleshooting Guide](https://github.com/infopercept/siem2thehive/wiki)
+- [Case Management API Documentation](https://github.com/CaseManagement-Project/CM-Docs/blob/master/api/README.md)
+- [Integration Troubleshooting Guide](https://github.com/infopercept/siem2cm/wiki)
 
 ---
 
@@ -163,19 +163,19 @@ Monitor TheHive dashboard for incoming alerts from SIEM integration.
 
 ### परिचयः (Introduction)
 
-एषः प्रकल्पः SIEM तथा TheHive इत्येतयोः मध्ये सेतुः अस्ति। सुरक्षा-घटनानां स्वचालित-प्रबन्धनाय एतत् साधनम् उपयुज्यते।
+एषः प्रकल्पः SIEM तथा Case Management इत्येतयोः मध्ये सेतुः अस्ति। सुरक्षा-घटनानां स्वचालित-प्रबन्धनाय एतत् साधनम् उपयुज्यते।
 
 ### स्थापना-विधिः (Installation Method)
 
 १. **कोड-संग्रहस्य प्रतिलिपिः**
 ```bash
 cd /opt/
-sudo git clone https://github.com/infopercept/siem2thehive.git
+sudo git clone https://github.com/infopercept/siem2cm.git
 ```
 
 २. **आवश्यक-साधनानां स्थापना**
 ```bash
-sudo /var/ossec/framework/python/bin/pip3 install -r /opt/siem2thehive/requirements.txt
+sudo /var/ossec/framework/python/bin/pip3 install -r /opt/siem2cm/requirements.txt
 ```
 
 ३. **संरचना-समायोजनम्**
@@ -202,8 +202,8 @@ sudo /var/ossec/framework/python/bin/pip3 install -r /opt/siem2thehive/requireme
 
 For issues, questions, or contributions:
 - **Email:** info@infopercept.com
-- **GitHub Issues:** [Report a bug](https://github.com/infopercept/siem2thehive/issues)
-- **Wiki:** [Documentation & FAQs](https://github.com/infopercept/siem2thehive/wiki)
+- **GitHub Issues:** [Report a bug](https://github.com/infopercept/siem2cm/issues)
+- **Wiki:** [Documentation & FAQs](https://github.com/infopercept/siem2cm/wiki)
 
 ---
 

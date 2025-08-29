@@ -10,12 +10,12 @@ import os
 import re
 import logging
 import uuid
-from thehive4py.api import TheHiveApi
+from thehive4py.api import TheHiveApi as CaseManagementApi
 from thehive4py.models import Alert, AlertArtifact
 
 # ossec.conf संरचना:
 #  <integration>
-#    <name>custom-w2thive</name>
+#    <name>custom-w2cm</name>
 #    <hook_url>http://localhost:9000</hook_url>
 #    <api_key>123456790</api_key>
 #    <alert_format>json</alert_format>
@@ -59,11 +59,11 @@ def main(args):
     logger.debug('# मुख्य-कार्यक्रम-आरम्भः')
     logger.debug('# सूचना-फाइल-स्थानं प्राप्नुहि')
     alert_file_location = args[1]
-    logger.debug('# TheHive url प्राप्नुहि')
-    thive = args[3]
-    logger.debug('# TheHive api कुञ्जी प्राप्नुहि')
-    thive_api_key = args[2]
-    thive_api = TheHiveApi(thive, thive_api_key )
+    logger.debug('# Case Management url प्राप्नुहि')
+    cm_url = args[3]
+    logger.debug('# Case Management api कुञ्जी प्राप्नुहि')
+    cm_api_key = args[2]
+    cm_api = CaseManagementApi(cm_url, cm_api_key)
     logger.debug('# सूचना-फाइलं उद्घाटयतु')
     w_alert = json.load(open(alert_file_location))
     logger.debug('# सूचना-दत्तांशः')
@@ -82,10 +82,10 @@ def main(args):
             if 'alert' in w_alert['data']:
                 # स्रोत-घटनायाः स्तरं परीक्षते
                 if int(w_alert['data']['alert']['severity'])<=suricata_lvl_threshold:
-                    send_alert(alert, thive_api)
+                    send_alert(alert, cm_api)
     elif int(w_alert['rule']['level'])>=lvl_threshold:
         # यदि घटना suricata तः भिन्ना अस्ति तथा suricata-event-type: alert तर्हि lvl_threshold परीक्षते
-        send_alert(alert, thive_api)
+        send_alert(alert, cm_api)
 
 
 def pr(data,prefix, alt):
@@ -159,12 +159,12 @@ def generate_alert(format_alt, artifacts_dict,w_alert):
 
 
 
-def send_alert(alert, thive_api):
-    response = thive_api.create_alert(alert)
+def send_alert(alert, cm_api):
+    response = cm_api.create_alert(alert)
     if response.status_code == 201:
-        logger.info('Create TheHive alert: '+ str(response.json()['id']))
+        logger.info('Case created in CM: '+ str(response.json()['id']))
     else:
-        logger.error('Error create TheHive alert: {}/{}'.format(response.status_code, response.text))
+        logger.error('Error creating case in CM: {}/{}'.format(response.status_code, response.text))
 
 
 

@@ -1,15 +1,20 @@
-[article by Awwal Ishiaku](https://wazuh.com/blog/using-wazuh-and-thehive-for-threat-protection-and-incident-response/)
+# SIEM and TheHive Integration
+
+**Copyright © 2015-2020 Infopercept Consulting**  
+**Property of Infopercept Consulting**
+
+[Reference article by Awwal Ishiaku](https://siem.com/blog/using-siem-and-thehive-for-threat-protection-and-incident-response/)
 
 _en_
-## Wazuh and TheHive integration
-This project integrates SIEM Wazuh and TheHive. Use the following instructions to configure:
+## SIEM and TheHive integration
+This project integrates SIEM and TheHive. Use the following instructions to configure:
  
 ```sh
 $ cd /opt/
-$ sudo git clone https://github.com/crow1011/wazuh2thehive.git
-$ sudo /var/ossec/framework/python/bin/pip3 install -r /opt/wazuh2thehive/requirements.txt
-$ sudo cp /opt/wazuh2thehive/custom-w2thive.py /var/ossec/integrations/custom-w2thive.py
-$ sudo cp /opt/wazuh2thehive/custom-w2thive /var/ossec/integrations/custom-w2thive
+$ sudo git clone https://github.com/infopercept/siem2thehive.git
+$ sudo /var/ossec/framework/python/bin/pip3 install -r /opt/siem2thehive/requirements.txt
+$ sudo cp /opt/siem2thehive/custom-w2thive.py /var/ossec/integrations/custom-w2thive.py
+$ sudo cp /opt/siem2thehive/custom-w2thive /var/ossec/integrations/custom-w2thive
 $ sudo chmod 755 /var/ossec/integrations/custom-w2thive.py
 $ sudo chmod 755 /var/ossec/integrations/custom-w2thive
 $ sudo chown root:ossec /var/ossec/integrations/custom-w2thive.py
@@ -33,7 +38,7 @@ lines description:
 
 **api\_key** - TheHive user's API key. You can generate the key on the user management page by logging in as administrator. For security, allow the api-user to create only an alert.
 
-**alert\_format** - format that wazuh sends alert to the integrator(no need to change)
+**alert\_format** - format that siem sends alert to the integrator(no need to change)
 
 after configuration, apply the changes with this command:
 ```sh
@@ -51,20 +56,22 @@ If you receive too many events, you can set a severity threshold for events that
 ```python
 lvl_threshold = 0
 ```
-Events with a severity level equal to or greater will be sent to TheHive. You can read more about event classification in Wazuh here: [wazuh-rules-classification](https://documentation.wazuh.com/3.12/user-manual/ruleset/rules-classification.html)
+Events with a severity level equal to or greater will be sent to TheHive. You can read more about event classification in SIEM here: [siem-rules-classification](https://documentation.siem.com/3.12/user-manual/ruleset/rules-classification.html)
 
-Vadim M.
+---
+**Developed by Infopercept Consulting**  
+**Contact: info@infopercept.com**
 
 _ru_
-## Wazuh and TheHive integration
-Этот проект интегрирует SIEM Wazuh и TheHive. Для настройки воспользуйтесь следующими инструкциями:
+## SIEM and TheHive integration
+Этот проект интегрирует SIEM и TheHive. Для настройки воспользуйтесь следующими инструкциями:
  
 ```sh
 $ cd /opt/
-$ sudo git clone https://github.com/crow1011/wazuh2thehive.git
-$ sudo /var/ossec/bin/python/pip3 install -r /opt/wazuh2thehive/requirements.txt
-$ sudo cp /opt/wazuh2thehive/custom-w2thive.py /var/ossec/integration/custom-w2thive.py
-$ sudo cp /opt/wazuh2thehive/custom-w2thive /var/ossec/integration/custom-w2thive
+$ sudo git clone https://github.com/infopercept/siem2thehive.git
+$ sudo /var/ossec/bin/python/pip3 install -r /opt/siem2thehive/requirements.txt
+$ sudo cp /opt/siem2thehive/custom-w2thive.py /var/ossec/integration/custom-w2thive.py
+$ sudo cp /opt/siem2thehive/custom-w2thive /var/ossec/integration/custom-w2thive
 $ sudo chmod 755 /var/ossec/integration/custom-w2thive.py
 $ sudo chmod 755 /var/ossec/integration/custom-w2thive
 $ sudo chown root:ossec /var/ossec/integration/custom-w2thive.py
@@ -88,7 +95,7 @@ $ sudo nano /var/ossec/etc/ossec.conf
 
 **api\_key** - API ключ TheHive пользователя. Сгенериоровать ключ можно на странице управления пользователями, авторизовавшись от администратора. Для безопасности разрешите api-пользователю только создание alert.
 
-**alert\_format** - формат, в котором wazuh передает в интегратор alert(не нужно изменять)
+**alert\_format** - формат, в котором siem передает в интегратор alert(не нужно изменять)
 
 после настройки примените изменения командой:
 ```sh
@@ -106,5 +113,8 @@ debug_enabled = True
 ```python
 lvl_threshold = 0
 ```
-В TheHive будут отправлены события с уровнем критичности равным или большим. Подробнее про классификацию событий в Wazuh можно прочитать здесь: [wazuh-rules-classification](https://documentation.wazuh.com/3.12/user-manual/ruleset/rules-classification.html)
-Vadim M.
+В TheHive будут отправлены события с уровнем критичности равным или большим. Подробнее про классификацию событий в SIEM можно прочитать здесь: [siem-rules-classification](https://documentation.siem.com/3.12/user-manual/ruleset/rules-classification.html)
+
+---
+**Разработано Infopercept Consulting**  
+**Контакт: info@infopercept.com**

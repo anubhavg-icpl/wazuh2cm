@@ -10,7 +10,7 @@
 
 A robust integration platform that seamlessly connects SIEM with Case Management for advanced threat detection and incident response automation.
 
-**Reference:** [Using SIEM and Case Management for Threat Protection](https://siem.com/blog/using-siem-and-cm-for-threat-protection-and-incident-response/)
+**Reference:** [Using SIEM and Case Management for Threat Protection](https://wazuh.com/blog/using-wazuh-and-thehive-for-threat-protection-and-incident-response/)
 
 ---
 
@@ -153,7 +153,7 @@ Monitor Case Management dashboard for incoming alerts from SIEM integration.
 
 ## 📚 Documentation
 
-- [SIEM Rules Classification](https://documentation.siem.com/3.12/user-manual/ruleset/rules-classification.html)
+- [SIEM Rules Classification](https://documentation.wazuh.com/3.12/user-manual/ruleset/rules-classification.html)
 - [Case Management API Documentation](https://github.com/CaseManagement-Project/CM-Docs/blob/master/api/README.md)
 - [Integration Troubleshooting Guide](https://github.com/infopercept/siem2cm/wiki)
 

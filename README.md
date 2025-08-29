@@ -1,7 +1,7 @@
 # SIEM-Case Management Integration Platform
 
-**Copyright © 2015-2020 Infopercept Consulting**  
-**Property of Infopercept Consulting**  
+**Copyright © 2015-2020 Infopercept Consulting**
+**Property of Infopercept Consulting**
 **Contact: info@infopercept.com**
 
 ---
@@ -37,16 +37,16 @@ sudo /var/ossec/framework/python/bin/pip3 install -r /opt/siem2cm/requirements.t
 
 3. **Deploy integration scripts**
 ```bash
-sudo cp /opt/siem2cm/custom-w2cm.py /var/ossec/integrations/custom-w2cm.py
-sudo cp /opt/siem2cm/custom-w2cm /var/ossec/integrations/custom-w2cm
+sudo cp /opt/siem2cm/custom-invinsense2cm.py /var/ossec/integrations/custom-invinsense2cm.py
+sudo cp /opt/siem2cm/custom-invinsense2cm /var/ossec/integrations/custom-invinsense2cm
 ```
 
 4. **Set permissions**
 ```bash
-sudo chmod 755 /var/ossec/integrations/custom-w2cm.py
-sudo chmod 755 /var/ossec/integrations/custom-w2cm
-sudo chown root:ossec /var/ossec/integrations/custom-w2cm.py
-sudo chown root:ossec /var/ossec/integrations/custom-w2cm
+sudo chmod 755 /var/ossec/integrations/custom-invinsense2cm.py
+sudo chmod 755 /var/ossec/integrations/custom-invinsense2cm
+sudo chown root:ossec /var/ossec/integrations/custom-invinsense2cm.py
+sudo chown root:ossec /var/ossec/integrations/custom-invinsense2cm
 ```
 
 ---
@@ -59,7 +59,7 @@ Edit `/var/ossec/etc/ossec.conf` and add the following integration block:
 
 ```xml
 <integration>
-    <name>custom-w2cm</name>
+    <name>custom-invinsense2cm</name>
     <hook_url>http://localhost:9000</hook_url>
     <api_key>YOUR_CM_API_KEY</api_key>
     <alert_format>json</alert_format>
@@ -70,7 +70,7 @@ Edit `/var/ossec/etc/ossec.conf` and add the following integration block:
 
 | Parameter | Description | Example |
 |-----------|-------------|---------|
-| **name** | Integration identifier (do not modify) | `custom-w2cm` |
+| **name** | Integration identifier (do not modify) | `custom-invinsense2cm` |
 | **hook_url** | Case Management instance URL | `http://localhost:9000` |
 | **api_key** | Case Management API key with alert creation permissions | `YOUR_API_KEY` |
 | **alert_format** | Data format for alerts (do not modify) | `json` |
@@ -88,7 +88,7 @@ sudo /var/ossec/bin/ossec-control restart
 
 ### Debug Mode
 
-Enable detailed logging by modifying `/var/ossec/integrations/custom-w2cm.py`:
+Enable detailed logging by modifying `/var/ossec/integrations/custom-invinsense2cm.py`:
 
 ```python
 # Change from:
@@ -103,7 +103,7 @@ debug_enabled = True
 Control alert volume by setting severity thresholds:
 
 ```python
-# In /var/ossec/integrations/custom-w2cm.py
+# In /var/ossec/integrations/custom-invinsense2cm.py
 
 # SIEM rules threshold (default: 0)
 lvl_threshold = 5
